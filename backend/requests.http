@@ -1,0 +1,112 @@
+### PetFind API requests (used by the frontend)
+# Define base URL (ajuste se seu backend rodar em outra porta/host)
+@baseUrl = http://localhost:4000
+
+# -- Auth ------------------------------------------------------------------
+
+### Register user
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{
+  "name": "Seu Nome",
+  "email": "you@example.com",
+  "password": "s3cret",
+  "telefone": "1199999-9999",
+  "cidade": "Brasilia",
+  "estado": "DF",
+  "foto": "data:image/jpeg;base64,/..."  # opcional: base64 ou URL dependendo do backend
+}
+
+### Login
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "you@example.com",
+  "password": "s3cret"
+}
+
+### Logout
+POST {{baseUrl}}/api/auth/logout
+
+### Get current user (me)
+GET {{baseUrl}}/api/me
+# withCredentials/cookie required when running from browser
+
+# -- Pets ------------------------------------------------------------------
+
+### List pets
+GET {{baseUrl}}/api/pets
+
+### Create pet (JSON example)
+POST {{baseUrl}}/api/pets
+Content-Type: application/json
+
+{
+  "name": "Fido",
+  "raca": "SRD",
+  "idade": 2,
+  "sexo": "macho",
+  "cidade": "Brasilia",
+  "estado": "DF",
+  "mainPhoto": "https://.../foto.jpg"  # ou envie multipart/form-data
+}
+
+### Create pet (multipart/form-data example)
+POST {{baseUrl}}/api/pets
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary
+
+------WebKitFormBoundary
+Content-Disposition: form-data; name="name"
+
+Fido
+------WebKitFormBoundary
+Content-Disposition: form-data; name="mainPhoto"; filename="fido.jpg"
+Content-Type: image/jpeg
+
+< ./path/to/fido.jpg
+------WebKitFormBoundary--
+
+### Update pet
+PUT {{baseUrl}}/api/pets/:petId
+Content-Type: application/json
+
+{
+  "name": "Fido atualizado",
+  "idade": 3
+}
+
+### Delete pet
+DELETE {{baseUrl}}/api/pets/:petId
+
+# -- Likes / Matches / Messages --------------------------------------------
+
+### Like a pet (creates like / possibly match)
+POST {{baseUrl}}/api/pets/:toPetId/like
+Content-Type: application/json
+
+{
+  "fromPetId": "ID_DO_SEU_PET"
+}
+
+### List matches (conversations)
+GET {{baseUrl}}/api/matches
+
+### List messages in a match
+GET {{baseUrl}}/api/matches/:matchId/messages
+
+### Send message in a match
+POST {{baseUrl}}/api/matches/:matchId/messages
+Content-Type: application/json
+
+{
+  "text": "Olá!"
+}
+
+# Notes:
+# - Substitua `:petId`, `:toPetId` e `:matchId` pelos IDs reais.
+# - As chamadas do frontend usam cookies (withCredentials). Quando testar via REST Client,
+#   você pode precisar autenticar com /api/auth/login e copiar o cookie de sessão, ou
+#   configurar variáveis de autorização conforme seu backend (JWT, cookie, etc.).
+# - Se preferir outro nome/local para o arquivo, me diga que eu movo/renomeio.

@@ -1,0 +1,27 @@
+{
+  "name": "petfind-backend",
+  "version": "0.2.0",
+  "private": true,
+  "scripts": {
+    "dev": "node src/server/express/server.js",
+    "start": "node src/server/express/server.js",
+    "lint": "eslint .",
+    "db:migrate": "sequelize-cli db:migrate",
+    "db:migrate:undo": "sequelize-cli db:migrate:undo"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie": "^0.6.0",
+    "express": "^4.18.2",
+    "formidable": "^3.5.4",
+    "jsonwebtoken": "^9.0.0",
+    "pg": "^8.10.0",
+    "sequelize": "^6.35.0",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.0",
+    "eslint": "^8.0.0",
+    "sequelize-cli": "^6.6.2"
+  }
+}
