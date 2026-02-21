@@ -19,6 +19,15 @@ app.use('/uploads', express.static(path.join(process.cwd(), 'public', 'uploads')
 
 app.use('/api', apiRoutes);
 
+// Health check route
+app.get('/health', (req, res) => {
+  res.json({
+    status: 'ok',
+    uptime: process.uptime(),
+    timestamp: new Date().toISOString(),
+  });
+});
+
 app.use((req, res) => {
   res.status(404).json({ error: 'Not found' });
 });
